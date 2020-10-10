@@ -10,7 +10,7 @@ pipeline {
       stage('Build Image') {
          agent { label 'test' }
          steps {
-            sh "sudo docker build -t webapp /home/ec2-user/workspace/test"
+            sh "sudo docker build -t webapp ."
          }
       }
       stage('Run Container') {
@@ -45,7 +45,7 @@ pipeline {
             sh "sudo docker rm webappcont 2> /dev/null || true"
             sh "sudo docker rmi webapp 2> /dev/null || true"
             sh "sudo docker stop webappcont 2> /dev/null || true"
-            sh "sudo docker build -t webapp /home/ec2-user/workspace/test"
+            sh "sudo docker build -t webapp ."
             sh "sudo docker run --name webappcont -itd -p 80:80 webapp"
          }
       }
