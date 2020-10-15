@@ -3,5 +3,5 @@ Maintainer "XYZ Software"
 Run apt-get update
 Run apt-get install -y tzdata
 Run apt-get apache2 -y
-Add . var/www/html
+Add . /home/ubuntu
 EXPOSE 80
