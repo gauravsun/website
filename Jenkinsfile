@@ -2,51 +2,51 @@ pipeline {
    agent none
    stages {
       stage('Git Source Code') {
-         agent { label 'test' }
+         agent { label 'Build' }
          steps {
             git 'https://github.com/gauravsun/website.git'
          }
       }
+      
       stage('Build Image') {
-         agent { label 'test' }
+         agent { label 'Build' }
          steps {
-            sh "sudo docker build -t webapp ."
+            sh "sudo docker build -t gauravsun/customweb:BUILD_NUMBER ."
          }
       }
-      stage('Run Container') {
-         agent { label 'test' }
+      
+      stage('Push Image to Docker hub') {
+         agent { label 'Build' }
          steps {
-            sh "sudo docker run --name webappcont -itd -p 80:80 webapp"
+            sh "sudo docker push gauravsun/customweb:BUILD_NUMBER ."
          }
       }
-      stage('Test Website') {
-         agent { label 'test' }
+      
+       stage('Test website on Test Server') {
+         agent { label 'Test' }
          steps {
             sh "java -jar App.jar"
          }
       }
-      stage('Delete Test Image and Container') {
-         agent { label 'test' }
+      
+      stage('Test website on Prod Server') {
+         agent { label 'Prod' }
          steps {
-            sh "sudo docker stop webappcont 2> /dev/null || true"
-            sh "sudo docker rm webappcont 2> /dev/null || true"
-            sh "sudo docker rmi webapp 2> /dev/null || true"
-            sh "sudo docker stop webappcont 2> /dev/null || true"
+            sh "java -jar App.jar"
          }
       }
-      stage('Publish to production') {
-         agent { label 'prod' }
+      
+      stage('Publish to Production') {
+         agent { label 'Prod' }
          when {
           branch 'master'
+          branch 'hotfix'
          }
          steps {
             git 'https://github.com/gauravsun/website.git'
-            sh "sudo docker stop webappcont 2> /dev/null || true"
-            sh "sudo docker rm webappcont 2> /dev/null || true"
-            sh "sudo docker rmi webapp 2> /dev/null || true"
-            sh "sudo docker stop webappcont 2> /dev/null || true"
-            sh "sudo docker build -t webapp ."
-            sh "sudo docker run --name webappcont -itd -p 80:80 webapp"
+            sh "sudo docker stop customwebcont 2> /dev/null || true"
+            sh "sudo docker rm customwebcont 2> /dev/null || true"
+            sh "sudo docker run --name customwebcont -itd -p 80:80 gauravsun/customweb:BUILD_NUMBER"
          }
       }
    }
