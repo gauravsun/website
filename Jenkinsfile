@@ -28,26 +28,5 @@ pipeline {
             sh "java -jar App.jar"
          }
       }
-      
-      stage('Test website on Prod Server') {
-         agent { label 'Prod' }
-         steps {
-            sh "java -jar App.jar"
-         }
-      }
-      
-      stage('Publish to Production') {
-         agent { label 'Prod' }
-         when {
-          branch 'master'
-          branch 'hotfix'
-         }
-         steps {
-            git 'https://github.com/gauravsun/website.git'
-            sh "sudo docker stop customwebcont 2> /dev/null || true"
-            sh "sudo docker rm customwebcont 2> /dev/null || true"
-            sh "sudo docker run --name customwebcont -itd -p 80:80 gauravsun/customweb:BUILD_NUMBER"
-         }
-      }
    }
 }
