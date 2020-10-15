@@ -11,7 +11,8 @@ pipeline {
       stage('Build Image') {
          agent { label 'Build' }
          steps {
-            sh "sudo docker build -t gauravsun/customweb:BUILD_NUMBER ."
+            sh "echo $BUILD_NUMBER"
+            sh "sudo docker build -t gauravsun/customweb:$BUILD_NUMBER ."
          }
       }
       
