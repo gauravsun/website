@@ -11,7 +11,6 @@ pipeline {
       stage('Build Image') {
          agent { label 'Build' }
          steps {
-            sh "echo $BUILD_NUMBER"
             sh "sudo docker build -t gauravsun/customweb:$BUILD_NUMBER ."
          }
       }
@@ -19,7 +18,7 @@ pipeline {
       stage('Push Image to Docker hub') {
          agent { label 'Build' }
          steps {
-            sh "sudo docker push gauravsun/customweb:BUILD_NUMBER ."
+            sh "sudo docker push gauravsun/customweb:$BUILD_NUMBER ."
          }
       }
       
