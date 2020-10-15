@@ -19,7 +19,7 @@ pipeline {
          agent { label 'Build' }
          steps {
             sh "cat dockerpass.txt | sudo docker login --username gauravsun --password-stdin"
-            sh "sudo docker push gauravsun/customweb:$BUILD_NUMBER ."
+            sh "sudo docker push gauravsun/customweb:$BUILD_NUMBER"
          }
       }
       
