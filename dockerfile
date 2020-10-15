@@ -1,5 +1,7 @@
-From hshar/webapp
-Maintainer "Abode Software"
+From ubuntu
+Maintainer "XYZ Software"
 Run apt-get update
 Run apt-get install -y tzdata
-Add . var/www/html
+Run apt-get apache2 -y
+Add . /home/ubuntu
+EXPOSE 80
