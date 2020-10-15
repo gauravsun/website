@@ -18,6 +18,7 @@ pipeline {
       stage('Push Image to Docker hub') {
          agent { label 'Build' }
          steps {
+            sh "cat dockerpass.txt | sudo docker login --username gauravsun --password-stdin"
             sh "sudo docker push gauravsun/customweb:$BUILD_NUMBER ."
          }
       }
