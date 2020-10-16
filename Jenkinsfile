@@ -43,7 +43,7 @@ pipeline {
          agent { label 'Prod' }
          steps {
             sh "kubectl apply -f deploy.yml"
-            sh "kubectl create service nodeport webnodesrv --tcp=80:80
+            sh "kubectl apply -f nodedeploy.yml"
          }
       }
       
