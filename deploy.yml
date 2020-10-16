@@ -11,6 +11,6 @@ spec:
         spec:
           containers:
           - name: webcont
-            image: gauravsun/customwebapp:v1
+            image: gauravsun/customwebapp
             ports:
             - containerPort: 80
