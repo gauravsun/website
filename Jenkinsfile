@@ -42,6 +42,8 @@ pipeline {
       stage('Run container on Prod Server') {
          agent { label 'Prod' }
          steps {
+            sh "sudo docker stop webappcont 2> /dev/null || true"
+            sh "sudo docker rm webappcont 2> /dev/null || true"
             sh "kubectl apply -f deploy.yml"
             sh "kubectl apply -f nodedeploy.yml"
          }
