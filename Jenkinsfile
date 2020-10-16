@@ -27,7 +27,7 @@ pipeline {
          agent { label 'Test' }
          steps {
             git 'https://github.com/gauravsun/website.git'
-            sh "sudo docker run --name customwebcont -itd -p 80:80 gauravsun/customweb:BUILD_NUMBER"
+            sh "sudo docker run --name customwebcont -itd -p 80:80 gauravsun/customweb:$BUILD_NUMBER"
          }
       }
       
