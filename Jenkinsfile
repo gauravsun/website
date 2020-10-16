@@ -26,7 +26,6 @@ pipeline {
        stage('Run container on Test Server') {
          agent { label 'Test' }
          steps {
-            git 'https://github.com/gauravsun/website.git'
             sh "sudo docker run --name customwebcont -itd -p 80:80 gauravsun/customweb:$BUILD_NUMBER"
          }
       }
@@ -40,6 +39,13 @@ pipeline {
          }
       }
       
+      stage('Run container on Prod Server') {
+         agent { label 'Prod' }
+         steps {
+            sh "kubectl apply -f deploy.yml"
+            sh "kubectl create service nodeport webnodesrv --tcp=80:80
+         }
+      }
       
    }
 }
