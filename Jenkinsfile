@@ -23,11 +23,23 @@ pipeline {
          }
       }
       
+       stage('Run container on Test Server') {
+         agent { label 'Test' }
+         steps {
+            git 'https://github.com/gauravsun/website.git'
+            sh "sudo docker run --name customwebcont -itd -p 80:80 gauravsun/customweb:BUILD_NUMBER"
+         }
+      }
+      
        stage('Test website on Test Server') {
          agent { label 'Test' }
          steps {
             sh "java -jar App.jar"
+            sh "sudo docker stop customwebcont 2> /dev/null || true"
+            sh "sudo docker rm customwebcont 2> /dev/null || true"
          }
       }
+      
+      
    }
 }
