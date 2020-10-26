@@ -5,3 +5,4 @@ Run apt-get install -y tzdata
 Run apt-get install -y apache2
 Add . /home/ubuntu
 EXPOSE 80
+CMD ["apache2ctl", "-D","FOREGROUND"]
